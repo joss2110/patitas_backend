@@ -11,12 +11,7 @@ import pe.edu.cibertec.patitas_backend.dto.LogoutRequestDTO;
 import pe.edu.cibertec.patitas_backend.dto.LogoutResponseDTO;
 import pe.edu.cibertec.patitas_backend.service.AutenticacionService;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.time.Duration;
-import java.time.LocalDateTime;
 import java.util.Arrays;
 
 
@@ -31,7 +26,7 @@ public class AutenticacionController {
     public LoginResponseDTO login(@RequestBody LoginRequestDTO loginRequestDTO) {
 
         try {
-            //Thread.sleep(Duration.ofSeconds(5));
+            Thread.sleep(Duration.ofSeconds(5));
             String[] datosUsuario = autenticacionService.validarUsuario(loginRequestDTO);
             System.out.println("Resultado: " + Arrays.toString(datosUsuario));
             if (datosUsuario == null) {
@@ -48,13 +43,14 @@ public class AutenticacionController {
     @PostMapping("/logout")
     public LogoutResponseDTO cerrarSesion(@RequestBody LogoutRequestDTO logoutRequestDTO) {
         try {
+            Thread.sleep(Duration.ofSeconds(1));
             String[] datosUsuario = autenticacionService.logout(logoutRequestDTO);
             System.out.println("Resultado2: " + Arrays.toString(datosUsuario));
             if (datosUsuario == null) {
                 return new LogoutResponseDTO("01", "Error: Usuario no encontrado");
             }
             return new LogoutResponseDTO("00", "Cierre de sesión exitoso");
-        } catch (IOException e) {
+        } catch (Exception e) {
             return new LogoutResponseDTO("99", "Error al registrar cierre de sesión");
         }
     }
